@@ -7,7 +7,7 @@ import urllib.request
 
 from dotenv import load_dotenv
 
-from .prompting import build_prompt
+from .prompting import build_messages
 
 
 class LLMError(RuntimeError):
@@ -30,16 +30,7 @@ def explain_code_with_llm(code: str) -> dict:
 
     payload = {
         "model": model,
-        "messages": [
-            {
-                "role": "system",
-                "content": "你是严谨的代码解释助手。必须只输出合法 JSON，不要输出 Markdown。",
-            },
-            {
-                "role": "user",
-                "content": build_prompt(code),
-            },
-        ],
+        "messages": build_messages(code),
         "temperature": 0,
     }
 

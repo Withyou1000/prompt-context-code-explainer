@@ -5,7 +5,6 @@ import json
 import sys
 from pathlib import Path
 
-from .llm_client import LLMError, explain_code_with_llm
 from .prompting import build_prompt
 
 
@@ -27,6 +26,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     try:
+        from .llm_client import LLMError, explain_code_with_llm
+
         explanation = explain_code_with_llm(code)
     except LLMError as exc:
         print(json.dumps({
