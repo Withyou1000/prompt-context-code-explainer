@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.code_explainer.analyzer import explain_code  # noqa: E402
+from src.code_explainer.llm_client import explain_code_with_llm  # noqa: E402
 
 
 def main() -> int:
@@ -21,13 +21,14 @@ def main() -> int:
     outputs: list[str] = []
 
     for _ in range(5):
-        result = explain_code(code).to_dict()
+        result = explain_code_with_llm(code)
         outputs.append(json.dumps(result, ensure_ascii=False, sort_keys=True))
 
     hashes = [hashlib.sha256(item.encode("utf-8")).hexdigest() for item in outputs]
     stable = len(set(hashes)) == 1
 
     print(json.dumps({
+        "backend": "llm",
         "runs": 5,
         "stable": stable,
         "hashes": hashes,

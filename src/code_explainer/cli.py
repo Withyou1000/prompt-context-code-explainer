@@ -5,7 +5,7 @@ import json
 import sys
 from pathlib import Path
 
-from .analyzer import explain_code
+from .llm_client import LLMError, explain_code_with_llm
 from .prompting import build_prompt
 
 
@@ -26,8 +26,16 @@ def main(argv: list[str] | None = None) -> int:
         print(build_prompt(code))
         return 0
 
-    explanation = explain_code(code)
-    print(json.dumps(explanation.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
+    try:
+        explanation = explain_code_with_llm(code)
+    except LLMError as exc:
+        print(json.dumps({
+            "error_code": "LLM_CALL_FAILED",
+            "message": str(exc),
+        }, ensure_ascii=False, indent=2, sort_keys=True), file=sys.stderr)
+        return 1
+
+    print(json.dumps(explanation, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
 
 

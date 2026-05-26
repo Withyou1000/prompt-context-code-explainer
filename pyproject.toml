@@ -4,4 +4,6 @@ version = "0.1.0"
 description = "用于学习 Prompt 和上下文工程的代码解释助手"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "python-dotenv>=1.1.0",
+]

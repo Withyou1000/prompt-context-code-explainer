@@ -11,3 +11,6 @@ wheels/
 
 # Editor settings
 .idea/
+
+# Local secrets
+.env
