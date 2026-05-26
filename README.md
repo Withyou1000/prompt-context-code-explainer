@@ -67,7 +67,7 @@ uv run python -m src.code_explainer.cli examples/sample_function.py
 uv run python -m src.code_explainer.cli examples/sample_function.py --show-prompt
 ```
 
-连续调用 5 次，检查输出结构是否稳定：
+连续调用 5 次，直接对比每次输出：
 
 ```powershell
 uv run python tests/stability_check.py examples/sample_function.py
